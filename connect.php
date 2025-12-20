@@ -9,7 +9,7 @@ $connection = new mysqli($localhost, $username, $password, $db);
 if ($connection->connect_error) {
     echo 'not connected'.$connection->connect_error;
 } else {
-    
+    // echo 'Connected Successfully';
 }
 
 ?>
