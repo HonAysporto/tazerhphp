@@ -1,10 +1,6 @@
 <?php
-require 'connect.php';
-
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
-header('Access-Control-Allow-Headers:Content-Type');
-
+require_once 'cors.php';
+require_once 'connect.php';
 $data = json_decode(file_get_contents('php://input'));
 
 $email = $data->email;

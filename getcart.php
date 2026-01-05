@@ -1,12 +1,7 @@
 <?php
 
-require 'connect.php';
-
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
-header('Access-Control-Allow-Headers: Content-Type');
-
-
+require_once 'cors.php';
+require_once 'connect.php';
 
 $query = "SELECT * FROM user_cart WHERE user_id = ?";
 $prepare = $connection->prepare($query);
