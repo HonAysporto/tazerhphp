@@ -1,17 +1,15 @@
 <?php
-$host = getenv('DB_HOST');
-$port = getenv('DB_PORT');
-$user = getenv('DB_USER');
-$pass = getenv('DB_PASS');
-$db   = getenv('DB_NAME');
+$localhost = 'localhost';
+$username = 'root';
+$password = '';
+$db = 'tazerhstore';
 
-$connection = new mysqli($host, $user, $pass, $db, $port);
+$connection = new mysqli($localhost, $username, $password, $db);
 
 if ($connection->connect_error) {
-    error_log('DB connection failed: ' . $connection->connect_error);
-    die('Database connection failed');
+    echo 'not connected'.$connection->connect_error;
+} else {
+   
 }
 
-
-// echo 'Connected successfully';
 ?>
