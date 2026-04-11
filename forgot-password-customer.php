@@ -27,7 +27,7 @@ if ($result->num_rows > 0) {
   $stmt2->bind_param("sss", $token, $expiry, $email);
   $stmt2->execute();
 
-  $link = "http://localhost:4200/customer-reset-password?token=$token";
+  $link = "https://tazerh-store.vercel.app/customer-reset-password?token=$token";
 
   // 🔥 EMAIL TEMPLATE
   $body = "
