@@ -3,7 +3,8 @@
 
 $allowedOrigins = [
     'http://localhost:4200',
-    'https://tazerh-store.vercel.app'
+    'https://tazerh-store.vercel.app',
+    'https://tazerhstorephp.onrender.com'
 ];
 
 // Dynamically allow known origins
