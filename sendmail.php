@@ -2,33 +2,35 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-
-require 'vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 function sendMail($to, $subject, $body) {
 
-  $mail = new PHPMailer(true);
-
   try {
+    $mail = new PHPMailer(true);
+
+    // SMTP config
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
 
-    $mail->Username   = 'jofadtechnologies@gmail.com'; 
-    $mail->Password   = 'dknv qcpm epid ycnf';  
+    $mail->Username   = 'jofadtechnologies@gmail.com';
+    $mail->Password   = 'dknv qcpm epid ycnf';
 
-    $mail->SMTPSecure = 'ssl';
-    $mail->Port       = 465;
+    // ✅ FIXED SETTINGS
+    $mail->SMTPSecure = 'tls'; // changed
+    $mail->Port       = 587;   // changed
 
-//     $mail->SMTPOptions = [
-//   'ssl' => [
-//     'verify_peer' => false,
-//     'verify_peer_name' => false,
-//     'allow_self_signed' => true
-//   ]
-// ];
+    // ✅ IMPORTANT FOR RENDER / CLOUD
+    $mail->SMTPOptions = [
+      'ssl' => [
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+        'allow_self_signed' => true
+      ]
+    ];
 
-
+    // Email setup
     $mail->setFrom('jofadtechnologies@gmail.com', 'TazerH Store');
     $mail->addAddress($to);
 
@@ -37,9 +39,10 @@ function sendMail($to, $subject, $body) {
     $mail->Body    = $body;
 
     $mail->send();
+
     return true;
 
   } catch (Exception $e) {
-  return $mail->ErrorInfo;
-}
+    return $e->getMessage(); // ✅ safer
+  }
 }
