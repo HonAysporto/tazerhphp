@@ -5,7 +5,8 @@ require 'sendmail.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-$buyer_id = $data['buyer_id'];
+// $buyer_id = $data['buyer_id'];
+$buyer_id = 1;
 $address = $data['address'];
 $reference = $data['reference'];
 
@@ -49,7 +50,7 @@ while ($row = $resultCart->fetch_assoc()) {
 }
 
 // 🔥 Clear cart
-$connection->query("DELETE FROM user_cart c WHERE user_id = $buyer_id");
+$connection->query("DELETE FROM user_cart WHERE user_id = $buyer_id");
 
 // Fetch buyer email
 $stmtUser = $connection->prepare("SELECT email, firstname FROM customers_table WHERE customer_id = ?");
