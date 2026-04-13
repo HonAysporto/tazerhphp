@@ -1,7 +1,7 @@
 <?php
 require 'connect.php';
 require_once 'cors.php';
-require 'sendMail.php';
+require 'sendmail.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
