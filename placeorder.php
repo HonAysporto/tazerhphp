@@ -49,7 +49,7 @@ while ($row = $resultCart->fetch_assoc()) {
 }
 
 // 🔥 Clear cart
-$connection->query("DELETE FROM cart WHERE user_id = $buyer_id");
+$connection->query("DELETE FROM user_cart WHERE user_id = $buyer_id");
 
 // Fetch buyer email
 $stmtUser = $connection->prepare("SELECT email, firstname FROM customers_table WHERE customer_id = ?");
