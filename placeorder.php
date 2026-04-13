@@ -1,12 +1,12 @@
 <?php
-require 'connect.php';
 require_once 'cors.php';
-require 'sendmail.php';
+require 'connect.php';
+
+// require 'sendmail.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-// $buyer_id = $data['buyer_id'];
-$buyer_id = 1;
+$buyer_id = $data['buyer_id'];
 $address = $data['address'];
 $reference = $data['reference'];
 
