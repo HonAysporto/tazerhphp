@@ -1,9 +1,28 @@
 <?php
-require 'connect.php';
-require_once 'cors.php';
 
+require_once 'cors.php'; // MUST be first
+
+// 🔥 Handle preflight request immediately
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+require 'connect.php';
+
+// Only try to read body if it exists
 $data = json_decode(file_get_contents('php://input'), true);
-$user_id = $data['user_id'];
+
+// Prevent crash if no data
+$user_id = $data['user_id'] ?? null;
+
+if (!$user_id) {
+    echo json_encode([
+        "status" => false,
+        "message" => "user_id is required"
+    ]);
+    exit();
+}
 
 // 🔥 Get orders
 $sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC";
@@ -18,13 +37,13 @@ while ($order = $result->fetch_assoc()) {
 
     $order_id = $order['order_id'];
 
-    // 🔥 Get items for each order
     $items_sql = "
       SELECT oi.*, p.product_name, p.product_image
       FROM order_items oi
       JOIN products_table p ON oi.product_id = p.product_id
       WHERE oi.order_id = ?
     ";
+
     $stmt2 = $connection->prepare($items_sql);
     $stmt2->bind_param("i", $order_id);
     $stmt2->execute();
