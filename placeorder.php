@@ -2,7 +2,7 @@
 require_once 'cors.php';
 require 'connect.php';
 
-require 'sendmail.php';
+
 
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -58,27 +58,4 @@ $stmtUser->bind_param("i", $buyer_id);
 $stmtUser->execute();
 $userData = $stmtUser->get_result()->fetch_assoc();
 
-$buyerEmail = $userData['email'];
-$buyerName = $userData['firstname'];
-
-// Prepare email content
-$subject = "Order Confirmation - Reference: $reference";
-$body = "
-Hi $buyerName,<br><br>
-Thank you for your order! Here are the details:<br>
-Order ID: $order_id<br>
-Total Amount: $$total<br>
-Shipping Address: $address<br><br>
-Your goods are being delivered.<br><br>
-Thank you for shopping with us!
-";
-
-// Send email
-$emailResult = sendMail($buyerEmail, $subject, $body);
-
-// ✅ Respond once to frontend
-if ($emailResult === true) {
-    echo json_encode(["status" => true, "order_id" => $order_id]);
-} else {
-    echo json_encode(["status" => true, "order_id" => $order_id, "email_error" => $emailResult]);
-}
+echo json_encode(["status" => true, "order_id" => $order_id]);
