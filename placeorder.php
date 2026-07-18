@@ -2,15 +2,12 @@
 require_once 'cors.php';
 require 'connect.php';
 
-
-
 $data = json_decode(file_get_contents('php://input'), true);
 
 $buyer_id = $data['buyer_id'];
 $address = $data['address'];
 $reference = $data['reference'];
 
-// 🔥 Calculate total again (secure)
 $sqlTotal = "SELECT SUM(c.quantity * p.product_price) AS total
 FROM user_cart c
 JOIN products_table p ON c.product_id = p.product_id
@@ -22,7 +19,6 @@ $stmt->execute();
 $result = $stmt->get_result()->fetch_assoc();
 $total = $result['total'] ?? 0;
 
-// Insert order
 $sql = "INSERT INTO orders (user_id, total_amount, address, reference)
         VALUES (?, ?, ?, ?)";
 $stmt2 = $connection->prepare($sql);
@@ -30,7 +26,6 @@ $stmt2->bind_param("idss", $buyer_id, $total, $address, $reference);
 $stmt2->execute();
 $order_id = $stmt2->insert_id;
 
-// Insert order items
 $sqlCart = "SELECT c.product_id, c.quantity, p.product_price
 FROM user_cart c
 JOIN products_table p ON c.product_id = p.product_id
@@ -49,10 +44,8 @@ while ($row = $resultCart->fetch_assoc()) {
     $stmt4->execute();
 }
 
-// 🔥 Clear cart
 $connection->query("DELETE FROM user_cart WHERE user_id = $buyer_id");
 
-// Fetch buyer email
 $stmtUser = $connection->prepare("SELECT email, firstname FROM customers_table WHERE customer_id = ?");
 $stmtUser->bind_param("i", $buyer_id);
 $stmtUser->execute();

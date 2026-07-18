@@ -6,12 +6,10 @@ require 'cors.php';
 $data = json_decode(file_get_contents("php://input"), true);
 
 $email = $data['email'];
-// $email = "ayomideoluwafemi2019@gmail.com";
 
 $token = bin2hex(random_bytes(16));
 $expiry = date("Y-m-d H:i:s", strtotime("+1 hour"));
 
-// 🔍 Check email
 $sql = "SELECT * FROM sellers_table WHERE email = ?";
 $stmt = $connection->prepare($sql);
 $stmt->bind_param("s", $email);
@@ -20,7 +18,6 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
 
-  // Save token
   $update = "UPDATE sellers_table 
              SET reset_token=?, token_expiry=? 
              WHERE email=?";
@@ -30,7 +27,6 @@ if ($result->num_rows > 0) {
 
   $link = "https://tazerh-store.vercel.app/seller-reset-password?token=$token";
 
-  // 🔥 EMAIL TEMPLATE
   $body = "
     <h3>Password Reset</h3>
     <p>Click the link below to reset your password:</p>
@@ -45,7 +41,7 @@ if ($result === true) {
 } else {
   echo json_encode([
     "status" => false,
-    "message" => $result // 🔥 SHOW REAL ERROR
+    "message" => $result
   ]);
 }
 

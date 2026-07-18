@@ -8,13 +8,11 @@ $name = $data->name;
 $email = $data->email;
 $photo = $data->photo ?? '';
 
-// 🔹 Split name into fname & lname
 $nameParts = explode(" ", $name);
 $fname = $nameParts[0];
 $lname = $nameParts[1] ?? '';
 $password = $fname;
 
-// 🔍 Check if user already exists
 $query = "SELECT * FROM customers_table WHERE email = ?";
 $prepare = $connection->prepare($query);
 $prepare->bind_param("s", $email);
@@ -23,7 +21,6 @@ $result = $prepare->get_result();
 
 if ($result->num_rows > 0) {
 
-    // ✅ User exists → return user
     $user = $result->fetch_assoc();
 
     $response = [
@@ -36,7 +33,6 @@ if ($result->num_rows > 0) {
 
 } else {
 
-    // 🔥 Create new Google user (no password)
     $hash = password_hash($password, PASSWORD_DEFAULT);
     $insertQuery = "INSERT INTO customers_table (`firstname`, `lastname`, `email`, `password`) VALUES (?, ?, ?, ?)";
     $insertPrepare = $connection->prepare($insertQuery);
@@ -46,7 +42,6 @@ if ($result->num_rows > 0) {
 
         $newUserId = $insertPrepare->insert_id;
 
-        // 🔁 Fetch the newly created user
         $getNewUser = $connection->prepare("SELECT * FROM customers_table WHERE customer_id = ?");
         $getNewUser->bind_param("i", $newUserId);
         $getNewUser->execute();

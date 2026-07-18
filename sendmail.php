@@ -9,7 +9,6 @@ function sendMail($to, $subject, $body) {
   try {
     $mail = new PHPMailer(true);
 
-    // SMTP config
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
@@ -17,11 +16,9 @@ function sendMail($to, $subject, $body) {
     $mail->Username   = 'jofadtechnologies@gmail.com';
     $mail->Password   = 'dknv qcpm epid ycnf';
 
-    // ✅ FIXED SETTINGS
-    $mail->SMTPSecure = 'tls'; // changed
-    $mail->Port       = 587;   // changed
+    $mail->SMTPSecure = 'tls';
+    $mail->Port       = 587;
 
-    // ✅ IMPORTANT FOR RENDER / CLOUD
     $mail->SMTPOptions = [
       'ssl' => [
         'verify_peer' => false,
@@ -30,7 +27,6 @@ function sendMail($to, $subject, $body) {
       ]
     ];
 
-    // Email setup
     $mail->setFrom('jofadtechnologies@gmail.com', 'TazerH Store');
     $mail->addAddress($to);
 
@@ -43,6 +39,6 @@ function sendMail($to, $subject, $body) {
     return true;
 
   } catch (Exception $e) {
-    return $e->getMessage(); // ✅ safer
+    return $e->getMessage();
   }
 }

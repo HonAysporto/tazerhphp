@@ -3,7 +3,7 @@
 require_once 'cors.php';
 require_once 'connect.php';
 
-$query = 'SELECT `products_table`.`product_id`, `products_table`.`product_name`, `products_table`.`product_details`, `products_table`.`product_quantity`, `products_table`.`product_category`, `products_table`.`product_price`, `products_table`.`product_image`, `sellers_table`.`shopname` FROM `products_table` JOIN `sellers_table` ON `products_table`.`sellers_id` = `sellers_table`.`sellers_id`';
+$query = 'SELECT `products_table`.`product_id`, `products_table`.`product_name`, `products_table`.`product_details`, `products_table`.`product_quantity`, `products_table`.`product_category`, `products_table`.`product_price`, `products_table`.`product_image`, `sellers_table`.`shopname` FROM `products_table` LEFT JOIN `sellers_table` ON `products_table`.`sellers_id` = `sellers_table`.`sellers_id`';
 
 $connect = $connection->query($query);
 

@@ -4,7 +4,6 @@ require_once 'connect.php';
 $data = json_decode(file_get_contents('php://input'));
 
 $buyer = $data->buyer_id;
-// $buyer = 1;
 
 $query = "SELECT 
     p.product_name,

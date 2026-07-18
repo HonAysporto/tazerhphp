@@ -3,7 +3,6 @@ require_once 'cors.php';
 require_once 'connect.php';
 
 $data = json_decode(file_get_contents('php://input'));
-// echo json_encode($data);
 
 $userId = $data->userId;
 
@@ -36,10 +35,5 @@ if ($execute) {
 } else {
  echo 'Query not ran';
 }
-
-
-
-
-
 
 ?>

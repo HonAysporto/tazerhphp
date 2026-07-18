@@ -5,7 +5,6 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("Content-Type: application/json");
 
-// 🔥 Handle preflight request immediately
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
@@ -13,10 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require 'connect.php';
 
-// Only try to read body if it exists
 $data = json_decode(file_get_contents('php://input'), true);
 
-// Prevent crash if no data
 $user_id = $data['user_id'] ?? null;
 
 if (!$user_id) {
@@ -27,7 +24,6 @@ if (!$user_id) {
     exit();
 }
 
-// 🔥 Get orders
 $sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC";
 $stmt = $connection->prepare($sql);
 $stmt->bind_param("i", $user_id);

@@ -1,26 +1,17 @@
 <?php
 require_once 'cors.php';
 require_once 'connect.php';
-// Decode the incoming JSON data
 $data = json_decode(file_get_contents('php://input'));
 
-// Extract the product name
 $productname = $data->productname ;
 
-// Check if product name is provided
-
-
-// Prepare the DELETE query
 $query = "DELETE FROM `products_table` WHERE `product_name` = ?";
 $stmt = $connection->prepare($query);
 
 if ($stmt) {
-    // Bind the product name parameter
     $stmt->bind_param('s', $productname);
 
-    // Execute the query
     if ($stmt->execute()) {
-        // Check if any rows were affected
         if ($stmt->affected_rows > 0) {
             $response = [
                 'status' => true,
@@ -47,7 +38,6 @@ if ($stmt) {
     ];
 }
 
-// Return the JSON response
 echo json_encode($response);
 
 ?>

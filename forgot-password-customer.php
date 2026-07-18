@@ -10,7 +10,6 @@ $email = $data['email'];
 $token = bin2hex(random_bytes(16));
 $expiry = date("Y-m-d H:i:s", strtotime("+1 hour"));
 
-// 🔍 Check email
 $sql = "SELECT * FROM customers_table WHERE email = ?";
 $stmt = $connection->prepare($sql);
 $stmt->bind_param("s", $email);
@@ -19,7 +18,6 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
 
-  // Save token
   $update = "UPDATE customers_table 
              SET reset_token=?, token_expiry=? 
              WHERE email=?";
@@ -29,7 +27,6 @@ if ($result->num_rows > 0) {
 
   $link = "https://tazerh-store.vercel.app/customer-reset-password?token=$token";
 
-  // 🔥 EMAIL TEMPLATE
   $body = "
     <h3>Password Reset</h3>
     <p>Click the link below to reset your password:</p>

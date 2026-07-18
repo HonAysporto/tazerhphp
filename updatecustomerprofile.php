@@ -2,7 +2,6 @@
   require_once 'cors.php';
 require_once 'connect.php';
 $data = json_decode(file_get_contents('php://input'));
-// echo json_encode($data);
 
 $firstname = $data->firstname;
 $lastname = $data->lastname;

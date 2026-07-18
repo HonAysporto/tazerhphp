@@ -4,7 +4,6 @@ require_once 'cors.php';
 require_once 'connect.php';
 
 $data = json_decode(file_get_contents('php://input'));
-// echo json_encode($data);
 
 $oldpassword = $data->oldPassword;
 $newpassword = $data->newPassword;
@@ -42,8 +41,6 @@ if ($execute) {
             } else {
                 echo 'not hashed';
             }
-    
-
 
         } else {
             $response = [

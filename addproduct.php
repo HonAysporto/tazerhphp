@@ -4,8 +4,6 @@ require_once 'cors.php';
 require_once 'connect.php';
 
 $data = json_decode(file_get_contents('php://input'));
-// echo json_encode($data);
-
 
 $productname = $data->productName;
 $description = $data->description;
@@ -15,12 +13,10 @@ $quantity = $data->quantity;
 $imagepath = $data->imagePath;
 $sellerid = $data->sellerid;
 
-
 $query = 'SELECT * FROM products_table Where product_name = ?';
 $prepare = $connection->prepare($query);
 $prepare->bind_param('s', $productname);
 $execute = $prepare->execute();
-
 
 if ($execute) {
     $getnumrow = $prepare->get_result();

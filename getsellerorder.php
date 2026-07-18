@@ -2,7 +2,6 @@
 require 'connect.php';
 require_once 'cors.php';
 
-// Get seller ID from request (e.g., from Angular) or session
 $data = json_decode(file_get_contents('php://input'));
 $seller_id = $data->seller_id; 
 
@@ -15,7 +14,6 @@ if (!$seller_id) {
     exit;
 }
 
-// Get all orders that include this seller's products (latest first)
 $sql = "SELECT o.*
     FROM orders o
     JOIN order_items oi ON o.order_id = oi.order_id
@@ -35,7 +33,6 @@ $orders = [];
 while ($order = $result->fetch_assoc()) {
     $order_id = $order['order_id'];
 
-    // 🔥 Get items in this order that belong to this seller
     $items_sql = "SELECT oi.*, p.product_name, p.product_image
         FROM order_items oi
         JOIN products_table p ON oi.product_id = p.product_id
